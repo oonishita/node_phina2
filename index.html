@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Socke.IOデモ メイン画面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="google" value="notranslate" />
+  <style>
+    body{
+      margin: 0;
+      overflow:hidden;
+    }
+    #phinaDiv {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top:-105%;
+    }
+  </style>
+  <script defer src="/socket.io/socket.io.js"></script>
+  <script defer src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+  <script defer src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+  <script defer src="/js/main_node.js"></script>
+  <script src='//cdn.rawgit.com/phi-jp/phina.js/v0.2.0/build/phina.js'></script>
+  <script type="text/javascript">
+    'use strict';
+    if (!phina.util.Support.webAudio) {
+      alert('webAudioに対応していません！最新のブラウザを使って下さい！');
+    }
+    phina.globalize();
+  </script>
+  <script src="js/config.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/title.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/result.js"></script>
+
+  <script type="text/javascript">
+    phina.main(function() {
+      var app = GameApp({
+        assets: ASSETS,
+        domElement: document.getElementById("phinaCanvas"),
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
+        fit: false ,
+        startLabel: 'titleScene',
+        scenes: [
+          {
+            className:'TitleScene',
+            label:'titleScene',
+            nextLabel:'mainScene',
+          },
+          {
+            className: 'MainScene',
+            label:'mainScene',
+            nextLabel:'resultScene',
+          },
+          {
+            className:'ResultScene',
+            label:'resultScene',
+            nextLabel:'titleScene',
+          }
+        ],
+        backgroundColor: '#8BF5FF',
+        title: 'music_stream',
+        fps: 60,
+      });
+      
+      let s = app.canvas.domElement.style;
+      s.width = "100%";
+      s.height = "auto";
+
+      app.run();
+    });
+  </script>
+</head>
+
+<body>
+  <div id="wrapper">
+  
+      <div id="pairingLayer">
+        <div class="window">
+          <p>STEP1</p>
+          <hr/>
+          <p>別のブラウザで以下にアクセス</p>
+          <p><a href="controller.html" target="_blank"><span id="controllerURL"></span></a></p>
+          <!--<div id="qrCode"><img src="https://chart.googleapis.com/chart?chs=180x180&chco=000000&cht=qr&chl=https://kanosocket.herokuapp.com/controller.html" /></div>-->
+        </div>
+        <div class="window">
+          <p>STEP2</p>
+          <hr/>
+          <p>以下のペアリングコードを入力</p>
+          <p id="pairingCodeForSP"></p>
+        </div>
+      </div>
+  
+      <div id="phinaDiv" class="mainContents">
+        <canvas id="phinaCanvas" class="mainContents"></canvas>
+      </div>
+   </div>
+
+</body>
+</html>
